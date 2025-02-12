@@ -12,18 +12,23 @@ state.moveRight = false;
 state.velocity = new THREE.Vector3();
 state.direction = new THREE.Vector3();
 state.canJump = false;
-
 state.controls = initControls(state.camera, state.renderer.domElement);
+state.prevTime = performance.now();
+state.moveSpeed = 10;
+state.jumpSpeed = 10;
+state.gravity = -30;
+state.playerHeight = 2;
 
 const stats = new Stats();
+stats.showPanel(0);
 stats.dom.style.position = 'absolute';
-stats.dom.style.top = '0';
-stats.dom.style.right = '0';
+stats.dom.style.top = '0px';
+stats.dom.style.right = '0px';
 document.body.appendChild(stats.dom);
 state.stats = stats;
 
 document.addEventListener("keydown", (event) => {
-  switch(event.code){
+  switch(event.code) {
     case "ArrowUp":
     case "KeyW":
       state.moveForward = true;
@@ -41,13 +46,16 @@ document.addEventListener("keydown", (event) => {
       state.moveRight = true;
       break;
     case "Space":
-      if(state.canJump){ state.velocity.y = state.jumpSpeed; state.canJump = false; }
+      if (state.canJump) {
+        state.velocity.y = state.jumpSpeed;
+        state.canJump = false;
+      }
       break;
   }
 }, false);
 
 document.addEventListener("keyup", (event) => {
-  switch(event.code){
+  switch(event.code) {
     case "ArrowUp":
     case "KeyW":
       state.moveForward = false;
