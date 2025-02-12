@@ -13,9 +13,11 @@ const jumpSpeed = 25;
 const playerHeight = 5;
 let canJump = false;
 const moveSpeed = 400;
-const roomSize = 75;
-const wallHeight = 20;
+const roomSize = 250;
+const wallHeight = 50;
 const collisionMargin = 2;
+const globalBrightness = 0.01;
+const orbIllumination = 1.0;
 
 init();
 animate();
@@ -24,11 +26,11 @@ function init() {
   camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 1000);
   scene = new THREE.Scene();
   scene.background = new THREE.Color(0xaaaaaa);
-  const mainLight = new THREE.DirectionalLight(0xffffff, 1.0);
+  const mainLight = new THREE.DirectionalLight(0xffffff, globalBrightness);
   mainLight.position.set(1, 1, 1);
   scene.add(mainLight);
   const textureLoader = new THREE.TextureLoader();
-  const floorTexture = textureLoader.load('assets/title.jpg');
+  const floorTexture = textureLoader.load('assets/floor.jpg');
   floorTexture.wrapS = THREE.RepeatWrapping;
   floorTexture.wrapT = THREE.RepeatWrapping;
   floorTexture.repeat.set(20, 20);
@@ -69,7 +71,7 @@ function init() {
   ceiling.rotation.x = Math.PI / 2;
   ceiling.position.y = wallHeight;
   scene.add(ceiling);
-  pointLight = new THREE.PointLight(0xffffff, 1, 200);
+  pointLight = new THREE.PointLight(0xffffff, orbIllumination, 200);
   pointLight.position.set(0, wallHeight - 5, 0);
   scene.add(pointLight);
   const bulbGeometry = new THREE.SphereGeometry(2, 16, 8);
