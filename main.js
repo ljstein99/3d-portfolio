@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import Stats from 'https://cdn.jsdelivr.net/npm/three@0.153.0/examples/jsm/libs/stats.module.js';
 import { initScene } from './scene.js';
 import { initControls } from './controls.js';
 import { startAnimation } from './animate.js';
@@ -13,6 +14,13 @@ state.direction = new THREE.Vector3();
 state.canJump = false;
 
 state.controls = initControls(state.camera, state.renderer.domElement);
+
+const stats = new Stats();
+stats.dom.style.position = 'absolute';
+stats.dom.style.top = '0';
+stats.dom.style.right = '0';
+document.body.appendChild(stats.dom);
+state.stats = stats;
 
 document.addEventListener("keydown", (event) => {
   switch(event.code){
