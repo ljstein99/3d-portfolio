@@ -1,27 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3D Portfolio</title>
+  <head>
+    <meta charset="UTF-8" />
+    <title>3D Red Cube FPS</title>
     <style>
-        body { margin: 0; overflow: hidden; }
-        canvas { display: block; }
-        #info {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            color: white;
-            font-family: Arial, sans-serif;
-            font-size: 18px;
-            background: rgba(0, 0, 0, 0.5);
-            padding: 10px;
-            border-radius: 5px;
-        }
+      body {
+        margin: 0;
+        overflow: hidden;
+      }
+      canvas {
+        display: block;
+      }
+      /* Overlay for instructions with high z-index */
+      #blocker {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 100;
+      }
+      #instructions {
+        font-family: Arial, sans-serif;
+        font-size: 24px;
+        color: #ffffff;
+        text-align: center;
+        cursor: pointer;
+      }
     </style>
-</head>
-<body>
-    <div id="info">Use WASD to move, mouse to look around</div>
+    <!-- Import map to resolve bare module specifiers -->
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://cdn.jsdelivr.net/npm/three@0.153.0/build/three.module.js"
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <!-- Overlay that tells the user to click to start -->
+    <div id="blocker">
+      <div id="instructions">
+        Click to play<br />
+        (W, A, S, D to move, mouse to look around)
+      </div>
+    </div>
+
+    <!-- Load our main script as an ES module -->
     <script type="module" src="script.js"></script>
-</body>
+  </body>
 </html>
