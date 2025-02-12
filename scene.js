@@ -4,8 +4,8 @@ import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.153.0/examples/
 export function initScene() {
   const roomSize = 100;
   const wallHeight = 50;
-  const globalBrightness = 0.01;
-  const orbIllumination = 1.0;
+  const globalBrightness = 0.02;
+  const orbIllumination = 1;
   const playerHeight = 5;
   const jumpSpeed = 25;
   const gravity = -100;
