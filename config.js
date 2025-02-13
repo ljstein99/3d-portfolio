@@ -1,5 +1,5 @@
 let camera, scene, renderer, controls;
-const moveSpeed = 0.1;
+const moveSpeed = 0.02;
 const keys = {};
 const rectLightsConfigs = [
   {
