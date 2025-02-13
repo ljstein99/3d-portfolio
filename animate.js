@@ -1,38 +1,24 @@
-export function startAnimation(state) {
-  let prevTime = state.prevTime;
-  function animate() {
-    if (state.stats) state.stats.begin();
-    requestAnimationFrame(animate);
-    const time = performance.now();
-    const delta = (time - prevTime) / 1000;
-
-    if (state.velocity) {
-      let moveZ = 0;
-      let moveX = 0;
-      if (state.moveForward)  moveZ += 1;
-      if (state.moveBackward) moveZ -= 1;
-      if (state.moveLeft)     moveX -= 1;
-      if (state.moveRight)    moveX += 1;
-      const length = Math.sqrt(moveX * moveX + moveZ * moveZ);
-      if (length > 0) {
-        moveX /= length;
-        moveZ /= length;
-      }
-      const speed = state.moveSpeed * delta;
-      state.controls.moveForward(moveZ * speed);
-      state.controls.moveRight(moveX * speed);
-      state.velocity.y += state.gravity * delta;
-      state.controls.getObject().position.y += state.velocity.y * delta;
-
-      if (state.controls.getObject().position.y < state.playerHeight) {
-        state.velocity.y = 0;
-        state.controls.getObject().position.y = state.playerHeight;
-        state.canJump = true;
-      }
-    }
-    prevTime = time;
-    state.renderer.render(state.scene, state.camera);
-    if (state.stats) state.stats.end();
+function handleMovement() {
+    if (keys['w']) controls.moveForward(moveSpeed);
+    if (keys['s']) controls.moveForward(-moveSpeed);
+    if (keys['a']) controls.moveRight(-moveSpeed);
+    if (keys['d']) controls.moveRight(moveSpeed);
+    if (keys['shift']) controls.getObject().position.y -= moveSpeed;
+    if (keys['space']) controls.getObject().position.y += moveSpeed;
   }
+  
+  function updateCoordinates() {
+    const pos = controls.getObject().position;
+    document.getElementById('coordinates').innerHTML =
+      `Coordinates: (${pos.x.toFixed(2)}, ${pos.y.toFixed(2)}, ${pos.z.toFixed(2)})`;
+  }
+  
+  function animate() {
+    requestAnimationFrame(animate);
+    handleMovement();
+    updateCoordinates();
+    renderer.render(scene, camera);
+  }
+  
   animate();
-}
+  

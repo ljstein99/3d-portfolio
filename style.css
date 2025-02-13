@@ -1,33 +1,61 @@
 body {
-  margin: 0;
-  overflow: hidden;
-}
-
-#blocker {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.7);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 100;
-}
-
-#instructions {
-  background: rgba(0, 0, 0, 0.5);
-  color: #fff;
-  padding: 20px 30px;
-  border-radius: 8px;
-  text-align: center;
-  font-family: sans-serif;
-  font-size: 20px;
-  cursor: pointer;
-  transition: transform 0.3s ease;
-}
-
-#instructions:hover {
-  transform: scale(1.1);
-}
+    margin: 0;
+    overflow: hidden;
+  }
+  
+  canvas {
+    display: block;
+  }
+  
+  #coordinates {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: white;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 5px 10px;
+    font-family: sans-serif;
+    font-size: 14px;
+    z-index: 1;
+  }
+  
+  #startOverlay,
+  #pauseOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+  }
+  
+  #pauseOverlay {
+    display: none;
+  }
+  
+  .overlayContent {
+    text-align: center;
+    color: white;
+    font-family: sans-serif;
+  }
+  
+  #startButton,
+  #resumeButton {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 18px;
+    border: none;
+    background: #ffcc00;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+  }
+  
+  #startButton:hover,
+  #resumeButton:hover {
+    transform: scale(1.1);
+  }
+  

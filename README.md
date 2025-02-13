@@ -1,12 +1,14 @@
 # 3D Portfolio Demo
 
-This project is a 3D interactive demo, showcasing a first-person perspective environment with dynamic lighting, textures, and movement controls. Check out the live demo [here](https://ljstein99.github.io/3d-portfolio/).
+A 3D interactive first-person demo with dynamic lighting, textures, and movement controls.
+
+[Live Demo](https://ljstein99.github.io/3d-portfolio/)
 
 ## Project Structure
 
-- **index.html** – The main HTML file.
-- **main.js** – The application entry point.
-- **scene.js** – Scene setup including lights, textures, and 3D objects.
-- **controls.js** – First-person control configuration.
-- **animate.js** – Animation loop and physics.
-- **assets/** – Textures and 3D models.
+- **index.html**: Main HTML file
+- **main.js**: App entry point
+- **scene.js**: Scene, lights, and objects
+- **controls.js**: First-person controls
+- **animate.js**: Animation loop
+- **assets/**: 3D models and textures
