@@ -18,16 +18,31 @@ function init() {
   floor.rotation.x = -Math.PI / 2;
   floor.position.y = 0;
   scene.add(floor);
-  const wallGeometry = new THREE.BoxGeometry(0.1, 9.0, 13.7);
-  const wallMaterial = new THREE.MeshBasicMaterial({ visible: false });
-  const wall = new THREE.Mesh(wallGeometry, wallMaterial);
-  wall.position.set(2.2, 5.5, 0.35);
-  scene.add(wall);
-  const wallGeometry2 = new THREE.BoxGeometry(8.15, 9.0, 0.1);
-  const wallMaterial2 = new THREE.MeshBasicMaterial({ visible: false });
-  const wall2 = new THREE.Mesh(wallGeometry2, wallMaterial2);
-  wall2.position.set(-1.775, 5.5, -6.20);
-  scene.add(wall2);
+  const objLoader = new THREE.OBJLoader();
+  objLoader.load('assets/arrow.obj', function(object) {
+    object.traverse(function(child) {
+      if (child instanceof THREE.Mesh) {
+        child.material = new THREE.MeshStandardMaterial({ 
+          color: 0xff0000,
+          emissive: 0xff3333,
+          emissiveIntensity: 0.2,
+          metalness: 0.3,
+          roughness: 0.4
+        });
+        child.castShadow = true;
+        child.receiveShadow = true;
+      }
+    });
+    object.rotation.x = -(Math.PI / 2);
+    object.rotation.z = Math.PI / 2;
+    object.scale.set(0.2, 0.2, 0.2);
+    object.position.set(1.35, 1.2, 1.9);
+    const glowLight = new THREE.PointLight(0xff0000, 2, 5);
+    glowLight.position.set(0, 0, 0);
+    object.add(glowLight);
+    scene.add(object);
+  });
+
   THREE.RectAreaLightUniformsLib.init();
   rectLightsConfigs.forEach((config) => {
     const { rectLight, rectLightMesh, spotLight } = createRectangularLightWithShadows(config);

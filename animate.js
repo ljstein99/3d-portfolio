@@ -13,6 +13,7 @@ function handleMovement() {
   }
 }
 function updateCoordinates() {
+  if (!controls) return;
   const pos = controls.getObject().position;
   document.getElementById('coordinates').innerHTML = `Coordinates: (${pos.x.toFixed(2)}, ${pos.y.toFixed(2)}, ${pos.z.toFixed(2)})`;
 }
@@ -70,7 +71,7 @@ function animate() {
     }
     if (player.position.x > 0 && player.position.x < 2.2 &&
         player.position.y > 1.0 && player.position.y < 10.0 &&
-        Math.abs(player.position.z - 1.95) < 0.05) {
+        Math.abs(player.position.z - 1.99) < 0.05) {
       player.position.z = prevZ;
     }
     if (Math.abs(player.position.x) < 0.05 &&
