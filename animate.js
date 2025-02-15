@@ -1,4 +1,4 @@
-import { checkInvisibleWalls } from './walls.js';
+import { checkInvisibleWalls } from "./walls.js";
 let velocityY = 0;
 const gravity = -0.001;
 const jumpSpeed = 0.04;
@@ -22,23 +22,37 @@ function computeLaptopCameraQuaternion() {
   return q;
 }
 function handleMovement() {
-  if (keys['w']) controls.moveForward(moveSpeed);
-  if (keys['s']) controls.moveForward(-moveSpeed);
-  if (keys['a']) controls.moveRight(-moveSpeed);
-  if (keys['d']) controls.moveRight(moveSpeed);
+  if (keys["w"]) controls.moveForward(moveSpeed);
+  if (keys["s"]) controls.moveForward(-moveSpeed);
+  if (keys["a"]) controls.moveRight(-moveSpeed);
+  if (keys["d"]) controls.moveRight(moveSpeed);
   const player = controls.getObject();
-  if (keys['space'] && Math.abs(player.position.y - playerHeight) < 0.01) {
+  if (keys["space"] && Math.abs(player.position.y - playerHeight) < 0.01) {
     velocityY = jumpSpeed;
   }
 }
 function updateCoordinates() {
   if (!controls) return;
   const pos = controls.getObject().position;
-  document.getElementById('coordinates').innerHTML = `Coordinates: (${pos.x.toFixed(2)}, ${pos.y.toFixed(2)}, ${pos.z.toFixed(2)})`;
+  document.getElementById("coordinates").innerHTML = `Coordinates: (${pos.x.toFixed(2)}, ${pos.y.toFixed(2)}, ${pos.z.toFixed(2)})`;
+}
+function simulateLoading(modalId, percentElementId, duration, callback) {
+  const modal = document.getElementById(modalId);
+  const percentElement = modal.querySelector(`#${percentElementId}`);
+  let current = 0;
+  const interval = duration / 100;
+  const timer = setInterval(() => {
+    current++;
+    percentElement.textContent = current + "%";
+    if (current >= 100) {
+      clearInterval(timer);
+      callback();
+    }
+  }, interval);
 }
 function animate() {
   requestAnimationFrame(animate);
-  if (inLaptopView) {
+  if (inLaptopView || transitioningToLaptop) {
     controls.enabled = false;
   } else {
     controls.enabled = true;
@@ -60,15 +74,15 @@ function animate() {
         arrowObject.position.y = 1.2 + Math.sin(Date.now() * 0.002) * 0.1;
       }
       const laptopZone = new THREE.Vector3(0.67, 1.4, 1.06);
-      const promptDiv = document.getElementById('laptopPrompt');
+      const promptDiv = document.getElementById("laptopPrompt");
       if (player.position.distanceTo(laptopZone) < 0.75) {
-        if(laptopPromptTimeout !== null){
+        if (laptopPromptTimeout !== null) {
           clearTimeout(laptopPromptTimeout);
           laptopPromptTimeout = null;
         }
         promptDiv.innerHTML = "Press T to access laptop";
-        promptDiv.classList.add('active');
-        if (keys['t']) {
+        promptDiv.classList.add("active");
+        if (keys["t"]) {
           savedUserCameraPosition.copy(camera.position);
           savedUserCameraQuaternion.copy(camera.quaternion);
           transitioningToLaptop = true;
@@ -76,13 +90,15 @@ function animate() {
           window.ignorePauseOverlay = true;
           document.getElementById("pauseOverlay").style.display = "none";
           controls.unlock();
-          promptDiv.classList.remove('active');
-          setTimeout(() => { promptDiv.innerHTML = ""; }, 1000);
-          keys['t'] = false;
+          promptDiv.classList.remove("active");
+          setTimeout(() => {
+            promptDiv.innerHTML = "";
+          }, 1000);
+          keys["t"] = false;
         }
       } else {
-        promptDiv.classList.remove('active');
-        if(laptopPromptTimeout === null){
+        promptDiv.classList.remove("active");
+        if (laptopPromptTimeout === null) {
           laptopPromptTimeout = setTimeout(() => {
             promptDiv.innerHTML = "";
             laptopPromptTimeout = null;
@@ -97,21 +113,21 @@ function animate() {
       camera.quaternion.slerpQuaternions(savedUserCameraQuaternion, laptopCameraQuaternion, progress);
       if (progress >= 1) {
         transitioningToLaptop = false;
-        inLaptopView = true;
-        window.ignorePauseOverlay = false;
-        document.getElementById('exitLaptopButton').classList.add('active');
+        document.getElementById("exitLaptopButton").classList.add("active");
+        document.getElementById("laptopBootPrompt").classList.add("show");
       }
     } else if (inLaptopView) {
-      document.getElementById('exitLaptopButton').classList.add('active');
-      if (keys['t'] || exitLaptopRequested) {
+      document.getElementById("exitLaptopButton").classList.add("active");
+      if (keys["t"] || exitLaptopRequested) {
         camera.position.set(0.39, 1.4, 0.95);
-        let target = new THREE.Vector3(0.39, 1.4, 0.95).add(new THREE.Vector3(1, 0, 1).normalize());
+        let target = new THREE.Vector3(0.39, 1.4, 0.95).add(new THREE.Vector3(1, -2.5, 1).normalize());
         camera.lookAt(target);
+        document.getElementById("laptopWindow").style.display = "none";
         inLaptopView = false;
         exitLaptopRequested = false;
-        document.getElementById('exitLaptopButton').classList.remove('active');
+        document.getElementById("exitLaptopButton").classList.remove("active");
         controls.lock();
-        keys['t'] = false;
+        keys["t"] = false;
       }
     }
   }
@@ -124,6 +140,34 @@ document.addEventListener("keydown", (e) => {
     exitLaptopRequested = true;
   }
 });
-document.getElementById('exitLaptopButton').addEventListener('click', () => {
+document.getElementById("exitLaptopButton").addEventListener("click", () => {
   exitLaptopRequested = true;
+});
+document.getElementById("bootButton").addEventListener("click", () => {
+  document.getElementById("laptopBootPrompt").classList.remove("show");
+  document.getElementById("bootingScreen").classList.add("show");
+  simulateLoading("bootingScreen", "bootPercent", 2000, () => {
+    document.getElementById("bootingScreen").classList.remove("show");
+    document.getElementById("passwordPrompt").classList.add("show");
+  });
+});
+document.getElementById("passwordSubmit").addEventListener("click", () => {
+  const input = document.getElementById("passwordInput").value;
+  if (input === "ljstein99") {
+    document.getElementById("passwordError").style.display = "none";
+    document.getElementById("passwordPrompt").classList.remove("show");
+    document.getElementById("successScreen").classList.add("show");
+    simulateLoading("successScreen", "successPercent", 2000, () => {
+      document.getElementById("successScreen").classList.remove("show");
+      document.getElementById("openingScreen").classList.add("show");
+      simulateLoading("openingScreen", "openingPercent", 2000, () => {
+        document.getElementById("openingScreen").classList.remove("show");
+        inLaptopView = true;
+        document.getElementById("exitLaptopButton").classList.add("active");
+        document.getElementById("laptopWindow").style.display = "block";
+      });
+    });
+  } else {
+    document.getElementById("passwordError").style.display = "block";
+  }
 });

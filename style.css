@@ -1,107 +1,208 @@
 body {
-    margin: 0;
-    overflow: hidden;
-  }
-  
-  canvas {
-    display: block;
-  }
-  
-  #coordinates {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    color: white;
-    background: rgba(0, 0, 0, 0.5);
-    padding: 5px 10px;
-    font-family: sans-serif;
-    font-size: 14px;
-    z-index: 1;
-  }
+  margin: 0;
+  overflow: hidden;
+}
 
-  #laptopPrompt {
-    position: fixed;
-    top: 66%;
-    left: 50%;
-    transform: translate(-50%, 20px);
-    width: auto;
-    text-align: center;
-    color: #fff;
-    font-family: sans-serif;
-    font-size: 28px;
-    background-color: rgba(0,0,0,0.6);
-    padding: 10px 20px;
-    border: 2px solid #fff;
-    border-radius: 5px;
-    opacity: 0;
-    transition: opacity 1s ease, transform 1s ease;
-    pointer-events: none;
-  }
-  #laptopPrompt.active {
-    opacity: 1;
-    transform: translate(-50%, 0);
-  }
+canvas {
+  display: block;
+}
 
-  #exitLaptopButton {
-    position: fixed;
-    top: 7.5vh;
-    left: 50%;
-    transform: translate(-50%, 20px);
-    width: auto;
-    text-align: center;
-    color: #fff;
-    font-family: sans-serif;
-    font-size: 28px;
-    background-color: rgba(0,0,0,0.6);
-    padding: 10px 20px;
-    border: 2px solid #fff;
-    border-radius: 5px;
-    opacity: 0;
-    transition: opacity 1s ease, transform 1s ease;
-    pointer-events: auto;
-  }
-  #exitLaptopButton.active {
-    opacity: 1;
-    transform: translate(-50%, 0);
-  }
-  
-  #startOverlay,
-  #pauseOverlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.85);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 2;
-  }
-  
-  #pauseOverlay {
-    display: none;
-  }
-  
-  .overlayContent {
-    text-align: center;
-    color: white;
-    font-family: sans-serif;
-  }
-  
-  #startButton,
-  #resumeButton {
-    margin-top: 20px;
-    padding: 10px 20px;
-    font-size: 18px;
-    border: none;
-    background: #ffcc00;
-    cursor: pointer;
-    transition: transform 0.3s ease;
-  }
-  
-  #startButton:hover,
-  #resumeButton:hover {
-    transform: scale(1.1);
-  }
-  
+#coordinates {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  color: white;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 5px 10px;
+  font-family: sans-serif;
+  font-size: 14px;
+  z-index: 1;
+}
+
+#laptopPrompt {
+  position: fixed;
+  top: 66%;
+  left: 50%;
+  transform: translate(-50%, 20px);
+  width: auto;
+  text-align: center;
+  color: #fff;
+  font-family: sans-serif;
+  font-size: 28px;
+  background-color: rgba(0, 0, 0, 0.6);
+  padding: 10px 20px;
+  border: 2px solid #fff;
+  border-radius: 5px;
+  opacity: 0;
+  transition: opacity 1s ease, transform 1s ease;
+  pointer-events: none;
+}
+
+#laptopPrompt.active {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+#exitLaptopButton {
+  position: fixed;
+  top: 3vh;
+  left: 50%;
+  transform: translate(-50%, 20px);
+  width: auto;
+  text-align: center;
+  color: #fff;
+  font-family: sans-serif;
+  font-size: 28px;
+  background-color: rgba(0, 0, 0, 0.6);
+  padding: 10px 20px;
+  border: 2px solid #fff;
+  border-radius: 5px;
+  opacity: 0;
+  transition: opacity 1s ease, transform 1s ease;
+  pointer-events: auto;
+}
+
+#exitLaptopButton.active {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+#startOverlay,
+#pauseOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+}
+
+#pauseOverlay {
+  display: none;
+}
+
+.overlayContent {
+  text-align: center;
+  color: white;
+  font-family: sans-serif;
+}
+
+#startButton,
+#resumeButton {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 18px;
+  border: none;
+  background: #ffcc00;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+#startButton:hover,
+#resumeButton:hover {
+  transform: scale(1.1);
+}
+
+#laptopWindow {
+  display: none;
+  position: fixed;
+  top: 10%;
+  left: 10%;
+  width: 80%;
+  height: 80%;
+  z-index: 3;
+  justify-content: center;
+  align-items: center;
+}
+
+#laptopWindow iframe {
+  width: 100%;
+  height: 100%;
+  border: 5px solid #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  top: 10%;
+  left: 10%;
+  width: 80%;
+  height: 80%;
+  background: rgba(0, 0, 0, 0.85);
+  z-index: 5;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.modal.show {
+  display: flex;
+}
+
+.modalContent {
+  width: 100%;
+  height: 100%;
+  background: #222;
+  border: 2px solid #fff;
+  border-radius: 10px;
+  text-align: center;
+  color: #fff;
+  font-family: sans-serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+#loadingScreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 4;
+}
+
+#loader {
+  position: relative;
+  width: 120px;
+  height: 120px;
+}
+
+#loader svg {
+  transform: rotate(-90deg);
+}
+
+#loader circle {
+  fill: none;
+  stroke: #fff;
+  stroke-width: 10;
+  stroke-linecap: round;
+}
+
+#loadingPercent {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #fff;
+  font-size: 20px;
+}
+
+#passwordError {
+  color: red;
+  display: none;
+  margin-top: 10px;
+}

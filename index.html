@@ -6,6 +6,15 @@
     <link rel="stylesheet" href="style.css">
   </head>
   <body>
+    <div id="loadingScreen">
+      <div id="loader">
+        <svg width="120" height="120" viewBox="0 0 120 120">
+          <circle cx="60" cy="60" r="50" id="progressCircle" />
+        </svg>
+        <div id="loadingPercent">0%</div>
+      </div>
+    </div>
+
     <div id="startOverlay">
       <div class="overlayContent">
         <h1>Click to Start</h1>
@@ -22,18 +31,56 @@
         <button id="startButton">Start</button>
       </div>
     </div>
+
     <div id="pauseOverlay">
       <div class="overlayContent">
         <h1>Game Paused</h1>
         <button id="resumeButton">Resume</button>
       </div>
     </div>
+
     <div id="coordinates">Coordinates: (0, 0, 0)</div>
+    
     <div id="laptopPrompt"></div>
+    
+    <button id="exitLaptopButton">Click here to stand up</button>
 
-    <button id="exitLaptopButton">Press T to stand up</button>
+    <div id="laptopBootPrompt" class="modal">
+      <div class="modalContent">
+        <p>Click here to turn laptop on</p>
+        <button id="bootButton">Turn On</button>
+      </div>
+    </div>
 
+    <div id="bootingScreen" class="modal">
+      <div class="modalContent">
+        <p>Booting up...</p>
+        <div id="bootPercent">0%</div>
+      </div>
+    </div>
 
+    <div id="passwordPrompt" class="modal">
+      <div class="modalContent">
+        <p>Please enter password:</p>
+        <input type="password" id="passwordInput" />
+        <button id="passwordSubmit">Submit</button>
+        <p id="passwordError">Incorrect password.</p>
+      </div>
+    </div>
+
+    <div id="successScreen" class="modal">
+      <div class="modalContent">
+        <p>Success! Loading in now...</p>
+        <div id="successPercent">0%</div>
+      </div>
+    </div>
+
+    <div id="openingScreen" class="modal">
+      <div class="modalContent">
+        <p>Opening self-portfolio.exe</p>
+        <div id="openingPercent">0%</div>
+      </div>
+    </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/PointerLockControls.js"></script>
@@ -43,11 +90,12 @@
     <script src="config.js"></script>
     <script src="lights.js"></script>
     <script src="walls.js"></script>
-    <script type="module" src="animate.js"></script> 
+    <script type="module" src="animate.js"></script>
     <script src="init.js"></script>
-
-
-      
     <script src="events.js"></script>
+
+    <div id="laptopWindow">
+      <iframe src="https://ljstein99.github.io/index.html"></iframe>
+    </div>
   </body>
 </html>
