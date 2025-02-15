@@ -1,3 +1,4 @@
+var arrowObject;
 function init() {
   scene = new THREE.Scene();
   camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -41,8 +42,8 @@ function init() {
     glowLight.position.set(0, 0, 0);
     object.add(glowLight);
     scene.add(object);
+    arrowObject = object;
   });
-
   THREE.RectAreaLightUniformsLib.init();
   rectLightsConfigs.forEach((config) => {
     const { rectLight, rectLightMesh, spotLight } = createRectangularLightWithShadows(config);
